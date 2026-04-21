@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZONA GAMER 🎮</title>
+
+<!-- Animate.css -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:#0f0f1a;
+    color:white;
+}
+
+header{
+    background:linear-gradient(90deg,#00f0ff,#8a2be2);
+    padding:15px;
+    text-align:center;
+    font-size:24px;
+    font-weight:bold;
+}
+
+nav{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    padding:10px;
+}
+nav a{
+    color:white;
+    text-decoration:none;
+    cursor:pointer;
+}
+
+.section{
+    padding:40px;
+    display:none;
+}
+
+.active{
+    display:block;
+}
+
+.hero{
+    text-align:center;
+}
+
+button{
+    background:#00f0ff;
+    border:none;
+    padding:10px 20px;
+    margin-top:10px;
+    cursor:pointer;
+    border-radius:10px;
+    transition:0.3s;
+}
+button:hover{
+    background:#8a2be2;
+    color:white;
+}
+
+/* GALERIA */
+.games{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+.card{
+    background:#1c1c2e;
+    padding:15px;
+    border-radius:10px;
+    width:200px;
+    text-align:center;
+}
+
+/* TRIVIA */
+.option{
+    display:block;
+    margin:10px;
+    padding:10px;
+    background:#1c1c2e;
+    border-radius:8px;
+    cursor:pointer;
+}
+.option:hover{
+    background:#8a2be2;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>ZONA GAMER 🎮</header>
+
+<nav>
+<a onclick="showSection('inicio')">Inicio</a>
+<a onclick="showSection('juegos')">Juegos</a>
+<a onclick="showSection('trivia')">Trivia</a>
+</nav>
+
+<!-- INICIO -->
+<div id="inicio" class="section active hero animate__animated animate__fadeIn">
+<h1>Bienvenido Gamer 🔥</h1>
+<p>Explora juegos y prueba tu conocimiento</p>
+<button onclick="showSection('juegos')">Explorar</button>
+</div>
+
+<!-- JUEGOS -->
+<div id="juegos" class="section">
+<h2>Videojuegos populares 🎮</h2>
+<div class="games">
+<div class="card">
+<h3>Fortnite</h3>
+<p>Battle Royale lleno de acción</p>
+</div>
+<div class="card">
+<h3>Minecraft</h3>
+<p>Construye tu mundo</p>
+</div>
+<div class="card">
+<h3>Call of Duty</h3>
+<p>Disparos intensos</p>
+</div>
+</div>
+</div>
+
+<!-- TRIVIA -->
+<div id="trivia" class="section">
+<h2>Trivia Gamer 🧠</h2>
+
+<div id="quiz"></div>
+<button onclick="nextQuestion()">Siguiente</button>
+
+<div id="result"></div>
+</div>
+
+<script>
+
+// NAVEGACION
+function showSection(id){
+    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+// TRIVIA
+const questions = [
+{
+q:"¿Qué juego es de construcción?",
+options:["Fortnite","Minecraft","FIFA","Warzone"],
+answer:1
+},
+{
+q:"¿Qué juego es Battle Royale?",
+options:["Minecraft","Fortnite","GTA","Mario"],
+answer:1
+},
+{
+q:"¿Qué juego es de fútbol?",
+options:["FIFA","COD","Minecraft","Halo"],
+answer:0
+}
+];
+
+let current = 0;
+let score = 0;
+
+function loadQuestion(){
+let q = questions[current];
+let html = "<h3>"+q.q+"</h3>";
+
+q.options.forEach((opt,i)=>{
+html += `<div class="option" onclick="select(${i})">${opt}</div>`;
+});
+
+document.getElementById("quiz").innerHTML = html;
+}
+
+function select(i){
+if(i === questions[current].answer){
+score++;
+}
+}
+
+function nextQuestion(){
+current++;
+if(current < questions.length){
+loadQuestion();
+}else{
+document.getElementById("quiz").innerHTML = "";
+document.getElementById("result").innerHTML = `<h2>Tu puntaje: ${score}</h2>`;
+}
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
